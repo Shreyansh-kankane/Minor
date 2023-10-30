@@ -1,5 +1,5 @@
 {
-  "name": "minor",
+  "name": "sih_dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,15 +9,32 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/node": "20.8.9",
-    "@types/react": "18.2.33",
-    "@types/react-dom": "18.2.14",
-    "autoprefixer": "10.4.16",
-    "next": "14.0.0",
-    "postcss": "8.4.31",
+    "@react-jvectormap/core": "^1.0.4",
+    "@react-jvectormap/india": "^1.0.1",
+    "@react-jvectormap/unitedstates": "^1.0.1",
+    "@syncfusion/ej2-react-grids": "^23.1.36",
+    "@types/node": "20.4.8",
+    "@types/react": "18.2.18",
+    "@types/react-dom": "18.2.7",
+    "apexcharts": "^3.41.1",
+    "autoprefixer": "10.4.14",
+    "bcryptjs": "^2.4.3",
+    "eslint": "8.46.0",
+    "eslint-config-next": "13.4.12",
+    "firebase": "^10.4.0",
+    "jsvectormap": "^1.5.3",
+    "mongoose": "^7.6.3",
+    "next": "13.4.12",
+    "next-auth": "^4.23.2",
+    "postcss": "8.4.27",
     "react": "18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "18.2.0",
-    "tailwindcss": "3.3.5",
-    "typescript": "5.2.2"
+    "react-icons": "^4.11.0",
+    "react-jvectormap": "^0.0.16",
+    "react-player": "^2.13.0",
+    "swr": "^2.2.4",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.1.6"
   }
 }
