@@ -1,42 +1,53 @@
-import React from "react";
+'use client'
+
+import React, { use } from "react";
 import CardDataStats from "@/components/CardDataStats";
 import Image from "next/image";
-
-
-// import dynamic from "next/dynamic";
-// // const MapOne = dynamic(() => import("../../components/Maps/MapOne"), {
-// //   ssr: false,
-// // });
-
-// import CarImg from "../../public/images/vechicles/Car2.png";
-// import BikeImg from "../../public/images/vechicles/bike.png";
-// import TruckImg from "../../public/images/vechicles/truck.png";
 
 import CarImg from '@/public/images/vechicles/Car2.png';
 import BikeImg from '@/public/images/vechicles/bike.png';
 import TruckImg from '@/public/images/vechicles/truck.png';
 
-// type ParkingInfo = {
-//   name: string;
-//   price: number[];
-//   max_slots: number[];
-//   available_slots: number[][];
-// };
+import { useEffect,useState } from "react";
+import { useSession } from "next-auth/react";
 
-async function getParkingInfo() {
-  const res = await fetch(process.env.URL + "/api/parking", {
-    method: "POST",
-    body: JSON.stringify({ parking_id: "ps3" }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const data = await res.json();
-  return data.parkingInfo;
+
+async function getParkingInfo(session) {
+  try {
+    const res = await fetch("/api/parkingExist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: session?.user?.email,
+      }),
+    });
+    if (res.status === 200) {
+      return await res.json();
+    } 
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export default async function Page() {
-  const parking = await getParkingInfo();
+export default function Page() {
+
+  const { data: session, status } = useSession();
+
+  const [parking, setParking] = useState(null);
+
+  useEffect(() => {
+    async function parkingInfo() {
+      const myparking = await getParkingInfo(session);
+      console.log(session)
+      setParking(myparking.parking);
+      console.log("parking", parking);
+    }
+    parkingInfo();
+  },[session]);
+
   if (!parking) return <div>Loading...</div>;
 
   return (
@@ -99,7 +110,7 @@ export default async function Page() {
       <div className="mt-4 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5">
           <h4 className="text-xl font-semibold text-black dark:text-white">
-            Parking Info
+            {parking.parkingName} Parking
           </h4>
         </div>
 
@@ -142,19 +153,19 @@ export default async function Page() {
             </div>
             <div className="col-span-2 hidden items-center sm:flex">
               <p className="text-sm text-black dark:text-white">
-                ₹{parking.price[index]}
+                ₹{parking.car.price}
               </p>
             </div>
             <div className="col-span-2 flex items-center">
               <p className="text-sm text-black dark:text-white">
-                {parking.max_slots[index]}
+                {parking.car.slots}
               </p>
             </div>
-            <div className="col-span-1 flex items-center">
+            {/* <div className="col-span-1 flex items-center">
               <p className="text-sm text-black dark:text-white">
-                {parking.available_slots[index].length}
+                {parking}
               </p>
-            </div>
+            </div> */}
           </div>
         ))}
       </div>

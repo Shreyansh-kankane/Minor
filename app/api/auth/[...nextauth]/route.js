@@ -55,8 +55,9 @@ export const authOptions = {
             credentials: {},
             async authorize(credentials) {
                 const { email, password } = credentials;
+                let db;
                 try {
-                    await connectMongoDB();
+                    db = await connectMongoDB();
                     const user = await User.findOne({ email });
                     if (!user) {
                         return null;
@@ -71,6 +72,7 @@ export const authOptions = {
                 } catch (error) {
                     console.log("Error: ", error);
                 }
+                
             },
         }),
     ],

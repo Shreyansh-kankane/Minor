@@ -4,13 +4,16 @@ import { usePathname } from "next/navigation";
 import SidebarLink from "../SidebarLink";
 
 import { RxDashboard } from "react-icons/rx";
-;
+
 import { FiLogOut } from "react-icons/fi";
-import { AiOutlineForm } from "react-icons/ai";
+
 import { MdLiveTv } from "react-icons/md";
 import { FcOrgUnit } from "react-icons/fc";
 
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+import Editdetails from "@/components/Editdetails/Editdetails"
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -18,7 +21,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-
+  const router = useRouter();
   const pathname = usePathname();
 
   const trigger = useRef<any>(null);
@@ -74,7 +77,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <Link href="/">
-          <h1 className=" text-2xl font-extrabold flex justify-center items-center gap-2 "><FcOrgUnit className=" text-7xl " /> ZeroDevInc's PMS</h1>
+          <h1 className=" text-2xl font-extrabold flex justify-center items-center gap-2 ">
+            <FcOrgUnit className=" text-7xl " /> ZeroDevInc's PMS
+          </h1>
         </Link>
 
         <button
@@ -108,7 +113,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           </h3>
           <div className="flex flex-col justify-between h-full">
             <ul className="mb-6 flex flex-col gap-1.5">
-            <SidebarLink
+              <SidebarLink
                 Icon={MdLiveTv}
                 title={"Live"}
                 href={"/bookings"}
@@ -117,23 +122,30 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <SidebarLink
                 Icon={RxDashboard}
                 title={"parking"}
-                href={"/parking"}
+                href={"/parkingDetails"}
                 currentPath={pathname}
               />
               <SidebarLink
-                Icon={AiOutlineForm}
+                Icon={RxDashboard}
                 title={"edit details"}
                 href={"/editDetails"}
                 currentPath={pathname}
               />
+
+              <Editdetails />
+              
             </ul>
-                <div
-                  className={`group hover:cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
-                  onClick={() => {signOut();}}
-                >
-                  <FiLogOut />
-                  Logout
-                </div>
+            <div
+              className={`group hover:cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+              onClick={() => {
+                
+                signOut();
+                router.push("/signin");
+              }}
+            >
+              <FiLogOut />
+              Logout
+            </div>
           </div>
         </nav>
       </div>

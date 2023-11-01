@@ -1,5 +1,9 @@
+'use client'
 import { VECHICLES } from "@/types/Vechicles";
 import { PEOPLES } from "@/types/peoples";
+import { Heading1 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useEffect,useState } from "react";
 
 const PeopleData: PEOPLES[] = [];
 
@@ -76,18 +80,54 @@ const data = [
   }
 ];
 
+async function getData() {
+  try {
+    const res = await fetch("/api/bookings",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      return await res.json();
+    }
+    return [];
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const Bookings = () => {
+
+  const { data: session, status } = useSession();
+  const [data, setData] = useState([]);
+
+  if (status === "unauthenticated") {
+    return <div>Loading...</div>;
+  }
+  
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getData();
+      setData(result);
+      console.log(data);
+      // setfilterData(result);
+    }
+    fetchData();
+  },[session]);
+  
+
   return (
     <>
       <div className="flex flex-col gap-10">
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="flex flex-col">
             <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-6">
-              <div className="p-2.5 xl:p-5">
+              {/* <div className="p-2.5 xl:p-5">
                 <h5 className="text-sm font-medium uppercase xsm:text-base">
                   Person_name
                 </h5>
-              </div>
+              </div> */}
               <div className="p-2.5 text-center xl:p-5">
                 <h5 className="text-sm font-medium uppercase xsm:text-base">
                   Vechicle ID
@@ -110,6 +150,8 @@ const Bookings = () => {
               </div>
             </div>
 
+            {data.length === 0 && <h1>No data found</h1> }
+
             {data.map((parkingDetail, key) => (
                 <div
                     className={`grid grid-cols-3 sm:grid-cols-6 ${
@@ -119,29 +161,25 @@ const Bookings = () => {
                     }`}
                     key={key}
                 >
-                    <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                        <p className="hidden text-black dark:text-white sm:block">
-                            {parkingDetail.Person_name}
-                        </p>
+
+                    <div className="flex items-center justify-center p-2.5 xl:p-5">
+                        <p className="text-black dark:text-white">{parkingDetail.vechicleNumber}</p>
                     </div>
 
                     <div className="flex items-center justify-center p-2.5 xl:p-5">
-                        <p className="text-black dark:text-white">{parkingDetail.vechicle_no}</p>
+                        <p className="text-black dark:text-white">{parkingDetail.bookedSlotNumber}</p>
                     </div>
 
                     <div className="flex items-center justify-center p-2.5 xl:p-5">
-                        <p className="text-black dark:text-white">{parkingDetail.slot_book_no}</p>
-                    </div>
-
-                    <div className="flex items-center justify-center p-2.5 xl:p-5">
-                    <p className="text-meta-3">{parkingDetail.Booking_Time}</p>
+                    <p className="text-meta-3">{parkingDetail.bookingTime}</p>
                     </div>
 
                     <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-                    <p className="text-black dark:text-white">{parkingDetail.end_Time}</p>
+                    <p className="text-black dark:text-white">{parkingDetail.endTime}</p>
                     </div>
                 </div>
-                ))}
+            ))}
+
           </div>
         </div>
       </div>
@@ -150,3 +188,14 @@ const Bookings = () => {
 };
 
 export default Bookings;
+
+
+// useEffect(() => {
+//   async function fetchData() {
+//     const result = await getData();
+//     setData(result);
+//     setfilterData(result);
+//   }
+
+//   fetchData();
+// }, []);

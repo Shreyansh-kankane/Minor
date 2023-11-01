@@ -36,7 +36,7 @@ const SignIn: React.FC = () => {
         console.log({"error in signin":res.error});
         return;
       }
-      router.push('/bookings');
+      router.push('/');
     }
     catch(err) {
       console.log(err);
