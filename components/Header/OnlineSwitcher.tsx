@@ -1,6 +1,7 @@
 // import useColorMode from "@/hooks/useColorMode";
 import useOnlineMode from "@/hooks/useOnlineMode";
 import { useModal } from "@/hooks/use-modal-store";
+import toast from "react-hot-toast";
 
 const OnlineSwitcher = () => {
   // const [colorMode, setColorMode] = useColorMode();
@@ -19,6 +20,7 @@ const OnlineSwitcher = () => {
     else {
       if (typeof setIsOnline === 'function') {
         setIsOnline((isOnline: boolean) => !isOnline);
+        toast.success('You are online now');
       }
     }
   }

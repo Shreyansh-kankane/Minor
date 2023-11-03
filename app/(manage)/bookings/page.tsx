@@ -79,20 +79,21 @@ const dummydata = [
 ];
 
 
-async function getData() {
+async function getData(email: string | undefined) {
   try {
     const res = await fetch("/api/bookings",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({email:email}),
     });
     if (res.status === 200) {
       return await res.json();
     }
     return [];
   } catch (error) {
-    console.log(error);
+    console.log("error",error);
   }
 }
 
@@ -107,12 +108,12 @@ const Bookings = () => {
   
   useEffect(() => {
     async function fetchData() {
-      const result = await getData();
+      const result = await getData(session?.user?.email);
       setData(result);
       // setfilterData(result);
     }
     fetchData();
-  },[session]);
+  },[]);
   
 
   return (
@@ -144,9 +145,9 @@ const Bookings = () => {
               </div>
             </div>
 
-            {data.length === 0 && <h1>No data found</h1> }
+            {data.length === 0 ? <h1>No data found</h1> : null }
 
-            {data.map((parkingDetail, key) => (
+            {data.length >0 && data.map((parkingDetail, key) => (
                 <div
                     className={`grid grid-cols-3 sm:grid-cols-6 ${
                     key === data.length - 1

@@ -11,7 +11,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import useOnlineMode from "@/hooks/useOnlineMode";
+// import useOnlineMode from "@/hooks/useOnlineMode";
+import toast from "react-hot-toast";
 
 
 export const SetOffline = () => {
@@ -23,6 +24,7 @@ export const SetOffline = () => {
     const handleSubmit = () =>{
         if (typeof setIsOnline === 'function') {
             setIsOnline(!isOnline);
+            toast.error('You are offline now');
             // console.log(isOnline);
             onClose();
             return;
