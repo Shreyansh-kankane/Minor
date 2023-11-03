@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type ModalType = "CreateParking" | "invite" | "editServer" | "members" | "createChannel" | "leaveServer" | "deleteServer" | "deleteChannel" | "editChannel" | "messageFile" | "deleteMessage";
+export type ModalType = "CreateParking" | "invite" | "editServer" | "members" | "createChannel" | "leaveServer" | "deleteServer" | "deleteChannel" | "editChannel" | "messageFile" | "deleteMessage" | "editDetails"|'set-offline';
 
 interface ModalData {
   parking_id?: string;
@@ -8,6 +8,7 @@ interface ModalData {
   isOnline?: boolean;
   totalSlots?: Number;
   location?: string;
+  setIsOnline?: (isOnline: boolean) => void;
 }
 
 interface ModalStore {

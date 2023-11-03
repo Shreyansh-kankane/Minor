@@ -41,9 +41,9 @@ export default function Page() {
   useEffect(() => {
     async function parkingInfo() {
       const myparking = await getParkingInfo(session);
-      console.log(session)
+      // console.log(session)
       setParking(myparking.parking);
-      console.log("parking", parking);
+      // console.log("parking", parking);
     }
     parkingInfo();
   },[session]);
@@ -129,7 +129,7 @@ export default function Page() {
           </div>
         </div>
 
-        {[0, 1, 2].map((index) => (
+        {[parking.bike, parking.car, parking.truck].map((obj,index) => (
           <div
             className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
             key={index}
@@ -153,12 +153,12 @@ export default function Page() {
             </div>
             <div className="col-span-2 hidden items-center sm:flex">
               <p className="text-sm text-black dark:text-white">
-                ₹{parking.car.price}
+                ₹{obj.price}
               </p>
             </div>
             <div className="col-span-2 flex items-center">
               <p className="text-sm text-black dark:text-white">
-                {parking.car.slots}
+                {obj.slots}
               </p>
             </div>
             {/* <div className="col-span-1 flex items-center">

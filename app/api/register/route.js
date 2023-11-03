@@ -8,6 +8,16 @@ export async function POST(req) {
     const { name, email, password } = await req.json();
     const hashedPassword = await bcrypt.hash(password, 10);
     await connectMongoDB();
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return NextResponse.json(
+        { message: "User with this email already exists." },
+        { status: 400 }
+      );
+    }
+
     await User.create({ name, email, password: hashedPassword });
 
     return NextResponse.json({ message: "User registered." }, { status: 201 });

@@ -16,7 +16,7 @@ function SidebarLink({ Icon, title, href, currentPath }: SidebarLinkProps) {
           currentPath === href && "bg-graydark dark:bg-meta-4"
         }`}
       >
-        {Icon}
+        <Icon />
         {title}
       </Link>
     </li>

@@ -2,6 +2,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import {AuthProvider} from "./Provider"
 import { ModalProvider } from '@/components/Providers/modal-provider'
+import {Toaster} from 'react-hot-toast' 
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,9 +19,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}
-       className={inter.className}>
+       className={inter.className}  >
         <AuthProvider>
           <ModalProvider />
+          <Toaster 
+            position="top-right"
+            reverseOrder={false}
+          />
+
           {children}
         </AuthProvider>
       </body>

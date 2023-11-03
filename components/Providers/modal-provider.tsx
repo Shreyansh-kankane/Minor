@@ -1,6 +1,8 @@
 "use client"
 import { useState,useEffect } from "react";
-import {EditDetailsModal} from "@/components/modals/edit-details";
+import {DeleteParkingModal} from "@/components/modals/delete-parking";
+import {EditDetailsModal} from "@/components/modals/edit-details"
+import { SetOffline } from "@/components/modals/set-offline";
 
 
 export const ModalProvider = () =>{
@@ -14,7 +16,9 @@ export const ModalProvider = () =>{
 
     return (
         <>
+            <DeleteParkingModal/>
             <EditDetailsModal />
+            <SetOffline />
         </>
     )
     

@@ -1,10 +1,10 @@
 
-import mongoose, {Schema,models} from "mongoose";
+import mongoose, { Schema, models } from "mongoose";
 
 const bookingSchema = new Schema({
     parking: {
         type: Schema.Types.ObjectId,
-        ref: "parkings", 
+        ref: "parkings",
     },
     bookingTime: {
         type: Date,
@@ -22,9 +22,9 @@ const bookingSchema = new Schema({
         type: Number,
         default: -1,
     },
-    },
+},
     { timestamps: true }
 )
 
-const Bookings = models.Booking || mongoose.model("bookings",bookingSchema);
+const Bookings = models.Bookings || mongoose.model("Bookings", bookingSchema);
 export default Bookings;

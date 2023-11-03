@@ -15,9 +15,7 @@ function Layout({ children }) {
     return (
       <div className="dark:bg-boxdark-2 dark:text-bodydark  h-[100%] w-full">
         {/* <h1>loading...</h1> */}
-        <div className="flex justify-center items-center">
-            <Loader />
-        </div>
+        <Loader />
       </div>
     );
   }

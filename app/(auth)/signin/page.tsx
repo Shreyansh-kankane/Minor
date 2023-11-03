@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {signIn} from "next-auth/react"
+import toast from "react-hot-toast";
 
 
 // const BASE_URI =  'https://sihdashboardapi-chaitanyakanhar2004.b4a.run/'
@@ -29,17 +30,25 @@ const SignIn: React.FC = () => {
     const email = formData.email;
     const password = formData.password;
 
+    toast.loading("Signing In...");
+
     try {
       const res = await signIn("credentials", {email, password, redirect: false});
 
       if(res.error){
         console.log({"error in signin":res.error});
+        toast.dismiss();
+        toast.error(res.error);
         return;
       }
       router.push('/');
+      toast.dismiss();
+      toast.success("Signed In Successfully");
     }
     catch(err) {
       console.log(err);
+      toast.dismiss();
+      toast.error(err.message);
     }
   };
 

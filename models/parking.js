@@ -57,5 +57,5 @@ const parkingSchema = new Schema({
 );
   
 
-const Parkings = models.Parkings || mongoose.model("parkings", parkingSchema);
+const Parkings = models.Parkings || mongoose.model("Parkings", parkingSchema);
 export default Parkings;

@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
 
 const SignUp: React.FC = () => {
   const router = useRouter();
@@ -27,20 +29,7 @@ const SignUp: React.FC = () => {
     const name = formData.name;
 
   try {
-    const resUserExists = await fetch("api/userExists", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
-
-    const { user } = await resUserExists.json();
-
-    if (user) {
-      console.log("User already exists.");
-      return;
-    }
+    toast.loading("Registering user...");
 
     const res = await fetch("api/register", {
       method: "POST",
@@ -53,16 +42,26 @@ const SignUp: React.FC = () => {
         password,
       }),
     });
-
+    console.log(res);
     if (res.ok) {
       const form = e.target as HTMLFormElement;
       form.reset(); 
       router.replace("/signin");
-    } else {
-      console.log("User registration failed.");
+      toast.dismiss();
+      toast.success("User registration successful.");
+    } 
+    else if(res.status === 400){
+      toast.dismiss();
+      toast.error("User already exists.");
     }
+    else {
+      toast.dismiss();
+      toast.error(res.statusText);
+    }
+
   } catch (error) {
     console.log("Error during registration: ", error);
+    toast.error(error.message);
   }
 };
   
@@ -93,12 +92,12 @@ const SignUp: React.FC = () => {
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="mb-2.5 block font-medium text-black dark:text-white">
-                  Name
+                  Parking Name
                 </label>
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Enter your full name"
+                    placeholder="Enter your Parking name"
                     onChange={handleChange}
                     name="name"
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"

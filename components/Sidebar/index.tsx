@@ -9,11 +9,15 @@ import { FiLogOut } from "react-icons/fi";
 
 import { MdLiveTv } from "react-icons/md";
 import { FcOrgUnit } from "react-icons/fc";
+import {MdDelete} from 'react-icons/md'
+import {FiEdit} from 'react-icons/fi'
 
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import Editdetails from "@/components/Editdetails/Editdetails"
+
+import DeleteParking from "@/components/SidebarLink/deleteParking"
+import EditParkDetails from "@/components/SidebarLink/editParkdetails"
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -107,11 +111,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear h-screen">
-        <nav className="py-4 px-4 lg:mt-9 lg:px-6 h-[80%]">
+        <nav className="py-4 px-4 lg:mt-9 lg:px-6 h-full">
           <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
             MENU
           </h3>
-          <div className="flex flex-col justify-between h-full">
+          <div className="flex flex-col justify-between h-[80%]">
             <ul className="mb-6 flex flex-col gap-1.5">
               <SidebarLink
                 Icon={MdLiveTv}
@@ -125,26 +129,41 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 href={"/parkingDetails"}
                 currentPath={pathname}
               />
-              <SidebarLink
-                Icon={RxDashboard}
+              {/* <SidebarLink
+                Icon={FiEdit}
                 title={"edit details"}
                 href={"/editDetails"}
                 currentPath={pathname}
-              />
+              /> */}
 
-              <Editdetails />
+              <div className={`group hover:cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+              >
+                <FiEdit />
+                <EditParkDetails />
+                             
+              </div>
+
               
             </ul>
-            <div
-              className={`group hover:cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
-              onClick={() => {
-                
-                signOut();
-                router.push("/signin");
-              }}
-            >
-              <FiLogOut />
-              Logout
+            <div>
+
+            <div className={`group hover:cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+              >
+                <MdDelete />
+                <DeleteParking />                
+            </div>
+
+              <div
+                className={`group hover:cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                onClick={() => {
+                  
+                  signOut();
+                  router.push("/signin");
+                }}
+              >
+                <FiLogOut />
+                Logout
+              </div>
             </div>
           </div>
         </nav>

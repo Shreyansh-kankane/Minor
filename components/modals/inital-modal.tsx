@@ -208,7 +208,6 @@ export const InitialModal = () => {
                         </FormItem>
                     )}
                   />
-
             </div>
 
             </div>

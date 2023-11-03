@@ -5,8 +5,6 @@ import { Heading1 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect,useState } from "react";
 
-const PeopleData: PEOPLES[] = [];
-
 const VechicleData: VECHICLES[] = [
   {
     _id: "osjfosfjr",
@@ -42,7 +40,7 @@ const VechicleData: VECHICLES[] = [
   },
 ];
 
-const data = [
+const dummydata = [
     {
         Person_name: "Shreyansh",
         vechicle_no: "HR08DA9761",
@@ -80,6 +78,7 @@ const data = [
   }
 ];
 
+
 async function getData() {
   try {
     const res = await fetch("/api/bookings",{
@@ -110,7 +109,6 @@ const Bookings = () => {
     async function fetchData() {
       const result = await getData();
       setData(result);
-      console.log(data);
       // setfilterData(result);
     }
     fetchData();
@@ -122,29 +120,25 @@ const Bookings = () => {
       <div className="flex flex-col gap-10">
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="flex flex-col">
-            <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-6">
-              {/* <div className="p-2.5 xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Person_name
-                </h5>
-              </div> */}
+            <div className="grid rounded-sm bg-gray-2 dark:bg-meta-4 grid-cols-4">
+
               <div className="p-2.5 text-center xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Vechicle ID
+                <h5 className="text-[10px] font-medium uppercase xsm:text-base">
+                  Vech. ID
                 </h5>
               </div>
               <div className="p-2.5 text-center xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Slot No. Booked
+                <h5 className="text-[10px] font-medium uppercase xsm:text-base">
+                  Slot book
                 </h5>
               </div>
-              <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
-                  Booking Time
+              <div className="p-2.5 text-center sm:block xl:p-5">
+                <h5 className="text-[10px] font-medium uppercase xsm:text-base">
+                  Booked Time
                 </h5>
               </div>
-              <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                <h5 className="text-sm font-medium uppercase xsm:text-base">
+              <div className="p-2.5 text-center sm:block xl:p-5">
+                <h5 className="text-[10px] font-medium uppercase xsm:text-base">
                   End time
                 </h5>
               </div>
@@ -189,13 +183,3 @@ const Bookings = () => {
 
 export default Bookings;
 
-
-// useEffect(() => {
-//   async function fetchData() {
-//     const result = await getData();
-//     setData(result);
-//     setfilterData(result);
-//   }
-
-//   fetchData();
-// }, []);
