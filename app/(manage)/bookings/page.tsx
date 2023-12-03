@@ -3,9 +3,9 @@ import { VECHICLES } from "@/types/Vechicles";
 import { PEOPLES } from "@/types/peoples";
 import { Heading1 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import Webcam from 'react-webcam';
+import Webcam from "react-webcam";
 
 const VechicleData: VECHICLES[] = [
   {
@@ -96,6 +96,7 @@ async function getData(email: string | undefined) {
   } catch (error) {
     console.log("error", error);
   }
+
 }
 
 const Bookings = () => {
@@ -110,28 +111,44 @@ const Bookings = () => {
   const [capturedImage, setCapturedImage] = useState(null);
   const webcamRef = useRef(null);
 
-  const capturePhoto = () => {
+  const capturePhoto = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     setCapturedImage(imageSrc);
-    postPhoto();
-  }
+    await postPhoto(capturedImage);
+  };
 
-  const postPhoto = async () => {
+  const postPhoto = async (photo) => {
     try {
       const payload = {
         image: capturedImage,
         email: session?.user?.email,
       };
 
-      console.log(payload)
-      // const apiUrl = "your-api-endpoint";
+      console.log(payload);
+
+      // const apiUrl = "http://127.0.0.1:8080/license/";
       // const response = await axios.post(apiUrl, payload);
       // console.log("API Response:", response.data);
+      const res = await fetch("http://localhost:8080/license/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image: photo,
+        }),
+      });
+
+      if(res.status == 200 ){
+        const data = await res.json();
+        console.log(data);
+        // setCapturedImage(null);
+      }
+      
     } catch (error) {
       console.error("Error posting photo to API:", error);
     }
   };
-
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -144,7 +161,6 @@ const Bookings = () => {
 
   return (
     <>
-
       <div className="flex flex-col gap-10">
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="flex flex-col">
@@ -210,17 +226,28 @@ const Bookings = () => {
         </div>
       </div>
 
-      {isActiveCam &&  <Webcam ref={webcamRef} />}
-      <button onClick={()=>{setIsActiveCam(true)}}> Open Web Camera </button>
-      <button onClick={capturePhoto}>Capture Photo</button>
-      <button onClick={()=>{setIsActiveCam(false)}}>Close camera</button>
-
+      {isActiveCam && <Webcam ref={webcamRef} />}
+      <button
+        onClick={() => {
+          setIsActiveCam(true);
+        }}
+      >
+        {" "}
+        Open Web Camera{" "}
+      </button>
+      <button onClick={()=>{capturePhoto()}}>Capture Photo</button>
+      <button
+        onClick={() => {
+          setIsActiveCam(false);
+        }}
+      >
+        Close camera
+      </button>
     </>
   );
-}
+};
 
 export default Bookings;
-
 
 // Convert the base64 string to a Blob
 // const base64ToBlob = (base64:any) => {

@@ -6,6 +6,14 @@ const bookingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "parkings",
     },
+    email: {
+        type: String,
+        required: true,
+    },
+    user_email: {
+        type: String,
+        required: true,
+    },
     bookingTime: {
         type: Date,
         required: true,
