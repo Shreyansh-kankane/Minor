@@ -42,7 +42,7 @@ const VechicleData: VECHICLES[] = [
   },
 ];
 
-const data = [
+const dummydata = [
   {
     Person_name: "Shreyansh",
     vechicleNumber: "HR08DA9761",
@@ -90,18 +90,18 @@ async function getData(email: string | undefined) {
       body: JSON.stringify({ email: email }),
     });
     if (res.status === 200) {
-      return await res.json();
+      const data = await res.json();
+      return data;
     }
     return [];
   } catch (error) {
     console.log("error", error);
   }
-
 }
 
 const Bookings = () => {
   const { data: session, status } = useSession();
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [isActiveCam, setIsActiveCam] = useState(false);
 
   if (status === "unauthenticated") {
@@ -126,9 +126,6 @@ const Bookings = () => {
 
       console.log(payload);
 
-      // const apiUrl = "http://127.0.0.1:8080/license/";
-      // const response = await axios.post(apiUrl, payload);
-      // console.log("API Response:", response.data);
       const res = await fetch("http://localhost:8080/license/", {
         method: "POST",
         headers: {
@@ -142,7 +139,6 @@ const Bookings = () => {
       if(res.status == 200 ){
         const data = await res.json();
         console.log(data);
-        // setCapturedImage(null);
       }
       
     } catch (error) {
@@ -150,14 +146,15 @@ const Bookings = () => {
     }
   };
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const result = await getData(session?.user?.email);
-  //     setData(result);
-  //     // setfilterData(result);
-  //   }
-  //   fetchData();
-  // },[]);
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getData(session?.user?.email);
+      console.log(result.bookings)
+      setData(result.bookings);
+      // setfilterData(result);
+    }
+    fetchData();
+  },[]);
 
   return (
     <>
@@ -201,7 +198,7 @@ const Bookings = () => {
                 >
                   <div className="flex items-center justify-center p-2.5 xl:p-5">
                     <p className="text-black dark:text-white">
-                      {parkingDetail.vechicleNumber}
+                      {parkingDetail.vehicleNumber}
                     </p>
                   </div>
 
@@ -226,7 +223,7 @@ const Bookings = () => {
         </div>
       </div>
 
-      {isActiveCam && <Webcam ref={webcamRef} />}
+      {/* {isActiveCam && <Webcam ref={webcamRef} />}
       <button
         onClick={() => {
           setIsActiveCam(true);
@@ -242,7 +239,7 @@ const Bookings = () => {
         }}
       >
         Close camera
-      </button>
+      </button> */}
     </>
   );
 };

@@ -53,7 +53,7 @@ export default function Page() {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-2 2xl:gap-7.5">
-        <CardDataStats title="Total Profit" total="₹45,2K" rate="4.35%" levelUp>
+        <CardDataStats title="Total Profit" total="₹4520" rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -161,11 +161,11 @@ export default function Page() {
                 {obj.slots}
               </p>
             </div>
-            {/* <div className="col-span-1 flex items-center">
+            <div className="col-span-1 flex items-center">
               <p className="text-sm text-black dark:text-white">
-                {parking}
+                {obj.available.length}
               </p>
-            </div> */}
+            </div>
           </div>
         ))}
       </div>

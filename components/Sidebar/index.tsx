@@ -119,22 +119,34 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               <SidebarLink
                 Icon={MdLiveTv}
-                title={"Live"}
+                title={"Live Bookings"}
                 href={"/bookings"}
                 currentPath={pathname}
               />
               <SidebarLink
                 Icon={RxDashboard}
-                title={"parking"}
+                title={"Parking Details"}
                 href={"/parkingDetails"}
                 currentPath={pathname}
               />
-              {/* <SidebarLink
+              <SidebarLink
                 Icon={FiEdit}
-                title={"edit details"}
-                href={"/editDetails"}
+                title={"Current Parked"}
+                href={"/currentParked"}
                 currentPath={pathname}
-              /> */}
+              />
+              <SidebarLink
+                Icon={FiEdit}
+                title={"Entry Cam"}
+                href={"/entry"}
+                currentPath={pathname}
+              />
+              <SidebarLink
+                Icon={FiEdit}
+                title={"Exit Cam"}
+                href={"/exit"}
+                currentPath={pathname}
+              />
 
               <div className={`group hover:cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
               >

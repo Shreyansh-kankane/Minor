@@ -1,12 +1,16 @@
 
 import mongoose, { Schema, models } from "mongoose";
 
-const bookingSchema = new Schema({
+const currentBookingSchema = new Schema({
     email: {
         type: String,
         required: true,
     },
     user_email: {
+        type: String,
+        required: true,
+    },
+    vehicleType: {
         type: String,
         required: true,
     },
@@ -26,9 +30,13 @@ const bookingSchema = new Schema({
         type: Number,
         default: -1,
     },
+    inParking: {
+        type: Number,
+        default: 0,
+    },
 },
     { timestamps: true }
 )
 
-const Bookings = models.Bookings || mongoose.model("Bookings", bookingSchema);
-export default Bookings;
+const CurrentBookings =  models.CurrentBookings || mongoose.model("CurrentBookings", currentBookingSchema);
+export default CurrentBookings;
