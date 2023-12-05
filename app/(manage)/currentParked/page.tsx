@@ -85,7 +85,7 @@ async function getData(email: string | undefined) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: email,inParking:0 }),
+      body: JSON.stringify({ email: email,inParking:1 }),
     });
     if (res.status === 200) {
       const data = await res.json();
@@ -109,8 +109,8 @@ const Bookings = () => {
     async function fetchData() {
       const result = await getData(session?.user?.email);
       console.log(result.bookings)
-      if(result.bookings.length != 0){
-        setData(result.bookings);
+      if(result.bookings.length > 0){
+        setData(result.bookings)
       }
     }
     fetchData();

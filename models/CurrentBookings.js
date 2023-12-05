@@ -15,11 +15,11 @@ const currentBookingSchema = new Schema({
         required: true,
     },
     bookingTime: {
-        type: Date,
+        type: Number,
         required: true,
     },
     endTime: {
-        type: Date,
+        type: Number,
         required: true,
     },
     vehicleNumber: {

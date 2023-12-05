@@ -53,7 +53,7 @@ export default function Page() {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-2 2xl:gap-7.5">
-        <CardDataStats title="Total Profit" total="₹4520" rate="4.35%" levelUp>
+        <CardDataStats title="Total Profit" total={parking.revenue} rate="" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -78,10 +78,10 @@ export default function Page() {
         </CardDataStats>
 
         <CardDataStats
-          title="Total Visiters"
-          total="345"
-          rate="0.95%"
-          levelDown
+          title="Total Bookings"
+          total={parking.visitors}
+          rate=""
+          levelUp
         >
           <svg
             className="fill-primary dark:fill-white"

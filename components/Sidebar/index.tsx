@@ -119,7 +119,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               <SidebarLink
                 Icon={MdLiveTv}
-                title={"Live Bookings"}
+                title={"Bookings"}
                 href={"/bookings"}
                 currentPath={pathname}
               />

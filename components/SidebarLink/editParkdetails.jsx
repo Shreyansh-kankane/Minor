@@ -6,7 +6,7 @@ const EditParkDetails = () => {
 
     return (
         <div className='text-white'>
-            <button onClick={() => onOpen('editDetails')}>edit details</button> 
+            <button onClick={() => onOpen('editDetails')}>Edit details</button> 
         </div>
     )
 }
