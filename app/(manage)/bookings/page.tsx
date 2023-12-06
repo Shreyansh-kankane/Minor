@@ -121,10 +121,15 @@ const Bookings = () => {
       <div className="flex flex-col gap-10">
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="flex flex-col">
-            <div className="grid rounded-sm bg-gray-2 dark:bg-meta-4 grid-cols-4">
+            <div className="grid rounded-sm bg-gray-2 dark:bg-meta-4 grid-cols-5">
               <div className="p-2.5 text-center xl:p-5">
                 <h5 className="text-[10px] font-medium uppercase xsm:text-base">
                   Vech. ID
+                </h5>
+              </div>
+              <div className="p-2.5 text-center xl:p-5">
+                <h5 className="text-[10px] font-medium uppercase xsm:text-base">
+                  Vehicle Type
                 </h5>
               </div>
               <div className="p-2.5 text-center xl:p-5">
@@ -149,7 +154,7 @@ const Bookings = () => {
             {data.length > 0 &&
               data.map((parkingDetail, key) => (
                 <div
-                  className={`grid grid-cols-4 sm:grid-cols-4 ${
+                  className={`grid grid-cols-5 sm:grid-cols-5 ${
                     key === data.length - 1
                       ? ""
                       : "border-b border-stroke dark:border-strokedark"
@@ -161,6 +166,13 @@ const Bookings = () => {
                       {parkingDetail.vehicleNumber}
                     </p>
                   </div>
+
+                  <div className="flex items-center justify-center p-2.5 xl:p-5">
+                    <p className="text-black dark:text-white">
+                      {parkingDetail.vehicleType}
+                    </p>
+                  </div>
+
 
                   <div className="flex items-center justify-center p-2.5 xl:p-5">
                     <p className="text-black dark:text-white">

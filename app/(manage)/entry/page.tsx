@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 
-
 async function getData(email: string | undefined) {
   try {
     const res = await fetch("/api/bookings", {
@@ -48,24 +47,32 @@ function VehicleEntry() {
     await postPhoto(capturedImage);
   };
 
-  const handleManualExit = async () => {
-    const resEntry = await fetch(
-      "https://sihfinalapp-aerz8ihu.b4a.run/entry",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: session?.user?.email,
-          vehicleNumber: searchLicense.toUpperCase(),
-        }),
-      }
-    );
+  const handleManualEntry = async () => {
+    try {
+      const resEntry = await fetch(
+        "https://testsihlogin-chaitanyakanhar2004.b4a.run/entry",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            // email: session?.user?.email,
+            vehicle_number: searchLicense,
+          }),
+        }
+      );
 
-    if(resEntry.status === 200){
+      if (resEntry.status === 200) {
         setIsOpen(true);
         toast.success("Gate Opened");
+      } else {
+        console.log("status error");
+        console.log(resEntry);
+        // toast.error();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -91,40 +98,41 @@ function VehicleEntry() {
       if (res.status == 200) {
         const resData = await res.json();
         const myLicense = resData.replace(/\s+/g, "").toUpperCase();
-        
+
         console.log(myLicense);
 
         let tt = myLicense;
 
-if (tt.length === 10) {
-  const charMap = {
-    '0': 'D',
-    '8': 'B',
-    '1': 'T',
-    '2': 'Z',
-    '5': 'S'
-  };
+        if (tt.length === 10) {
+          const charMap = {
+            "0": "D",
+            "8": "B",
+            "1": "T",
+            "2": "Z",
+            "5": "S",
+          };
 
-  tt = tt.split('').map((char, index) => {
-    if (index === 0 || index === 1 || index === 4 || index === 5) {
-      return charMap[char] || char;
-    } else {
-      // Revert the changes for the rest
-      const reverseCharMap = {
-        'D': '0',
-        'B': '8',
-        'T': '1',
-        'Z': '2',
-        'S': '5'
-      };
-      return reverseCharMap[char] || char;
-    }
-    }).join('');
-    } else if (tt.length === 9 || tt.length === 11 || tt.length === 12) {
-    // Handle other cases if needed
-    } else {
-    tt = "image is not clear";
-    }
+          tt = tt.split("").map((char, index) => {
+              if (index === 0 || index === 1 || index === 4 || index === 5) {
+                return charMap[char] || char;
+              } else {
+                // Revert the changes for the rest
+                const reverseCharMap = {
+                  D: "0",
+                  B: "8",
+                  T: "1",
+                  Z: "2",
+                  S: "5",
+                };
+                return reverseCharMap[char] || char;
+              }
+            })
+            .join("");
+        } else if (tt.length === 8 || tt.length === 9 || tt.length === 11) {
+          // Handle other cases if needed
+        } else {
+          tt = "image is not clear";
+        }
         // let tt = myLicense;
         // if(tt.length == 10){
         //     if (tt[0]=="0") {
@@ -134,11 +142,11 @@ if (tt.length === 10) {
         //     }else if (tt[0]=='1') {
         //         tt[0]='T';
         //     }else if (tt[0]=='2') {
-        //         tt[0]='Z';  
+        //         tt[0]='Z';
         //     }else if (tt[0]=='5'){
         //         tt[0]='S'
         //     }
-            
+
         //     if (tt[1]=='0') {
         //         tt[1]='D';
         //     }else if(tt[1]=='8'){
@@ -151,7 +159,6 @@ if (tt.length === 10) {
         //         tt[1]='S'
         //     }
 
-
         //     if(tt[2]=='O'){
         //         tt[2]='0';
         //     }else if(tt[2]=='B'){
@@ -163,7 +170,6 @@ if (tt.length === 10) {
         //     }else if(tt[2]=='S'){
         //         tt[2]='5';
         //     }
-
 
         //     if(tt[3]=='O'){
         //         tt[3]='0';
@@ -184,7 +190,7 @@ if (tt.length === 10) {
         //     }else if (tt[4]=='1') {
         //         tt[4]='T';
         //     }else if (tt[4]=='2') {
-        //         tt[4]='Z';  
+        //         tt[4]='Z';
         //     }else if (tt[4]=='5'){
         //         tt[4]='S'
         //     }
@@ -196,7 +202,7 @@ if (tt.length === 10) {
         //     }else if (tt[5]=='1') {
         //         tt[5]='T';
         //     }else if (tt[5]=='2') {
-        //         tt[5]='Z';  
+        //         tt[5]='Z';
         //     }else if (tt[5]=='5'){
         //         tt[5]='S'
         //     }
@@ -257,39 +263,36 @@ if (tt.length === 10) {
         console.log(tt);
         setLicense(tt);
 
-
-
         for (let i = 0; i < data.length; i++) {
-
-          if (data[i].vehicleNumber.replace(/\s+/g, "").toUpperCase() == myLicense) {
+          if (
+            data[i].vehicleNumber.replace(/\s+/g, "").toUpperCase() == myLicense
+          ) {
             console.log(data[i].vehicleNumber);
             setIsOpen(true);
 
             const resEntry = await fetch(
-              "https://sihfinalapp-aerz8ihu.b4a.run/entry",
+              "https://testsihlogin-chaitanyakanhar2004.b4a.run/entry",
               {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  email: session?.user?.email,
-                  vehicleNumber: data[i].vehicleNumber,
+                  // parking_id: session?.user?.email,
+                  vehicle_number: data[i].vehicleNumber,
                 }),
               }
             );
-            if(resEntry.status === 200){
-                setIsOpen(true);
-                toast.success("Gate Opened");
-            }
-            else {
-                console.log("status error");
+            if (resEntry.status === 200) {
+              setIsOpen(true);
+              toast.success("Gate Opened");
+            } else {
+              console.log("status error");
             }
             break;
-          }
-          else {
+          } else {
             console.log("No Booking of this vehicle found");
-           }
+          }
         }
       }
     } catch (error) {
@@ -310,7 +313,6 @@ if (tt.length === 10) {
       );
       setSearchResults(results);
     }
-    
   };
 
   useEffect(() => {
@@ -399,7 +401,7 @@ if (tt.length === 10) {
           <Button
             className="text-white font-medium bg-meta-3 hover:bg-success mr-3"
             onClick={() => {
-              handleManualExit;
+              handleManualEntry();
             }}
             disabled={searchLicense ? false : true}
           >

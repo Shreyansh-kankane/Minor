@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 
-
 async function getData(email: string | undefined) {
   try {
     const res = await fetch("/api/bookings", {
@@ -15,7 +14,7 @@ async function getData(email: string | undefined) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: email, inParking: 0 }),
+      body: JSON.stringify({ email: email, inParking: 1 }),
     });
     if (res.status === 200) {
       const data = await res.json();
@@ -50,22 +49,24 @@ function VehicleExit() {
 
   const handleManualEntry = async () => {
     const resEntry = await fetch(
-      "https://sihfinalapp-aerz8ihu.b4a.run/exit",
+      "https://testsihlogin-chaitanyakanhar2004.b4a.run/exit",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: session?.user?.email,
-          vehicleNumber: searchLicense.toUpperCase(),
+          parking_id: session?.user?.email,
+          vehicle_number: searchLicense.toUpperCase(),
         }),
       }
     );
-
-    if(resEntry.status === 200){
-        setIsOpen(true);
-        toast.success("Gate Opened ready to go out");
+    console.log(resEntry);
+    if (resEntry.status == 200) {
+      setIsOpen(true);
+      toast.success("Gate Opened ready to go out");
+    } else {
+      toast.error("No license found");
     }
   };
 
@@ -101,31 +102,28 @@ function VehicleExit() {
             setIsOpen(true);
 
             const resEntry = await fetch(
-              "https://sihfinalapp-aerz8ihu.b4a.run/exit",
+              "https://testsihlogin-chaitanyakanhar2004.b4a.run/exit",
               {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  email: session?.user?.email,
-                  vehicleNumber: data[i].vehicleNumber,
+                  parking_id: session?.user?.email,
+                  vehicle_number: data[i].vehicleNumber,
                 }),
               }
             );
-            if(resEntry.status === 200){
-                setIsOpen(true);
-                toast.success("Gate Opened ready to go out");
+            if (resEntry.status === 200) {
+              setIsOpen(true);
+              toast.success("Gate Opened ready to go out");
             }
             break;
+          } else {
+            console.log("No license found");
           }
-          else{
-                console.log("No license found")
-            }
         }
-        
       }
-
     } catch (error) {
       console.error("Error posting photo to API:", error);
     }
@@ -231,11 +229,11 @@ function VehicleExit() {
           <Button
             className="text-white font-medium bg-meta-3 hover:bg-success mr-3"
             onClick={() => {
-              handleManualEntry;
+              handleManualEntry();
             }}
             disabled={searchLicense ? false : true}
           >
-            Manual Entry
+            Manual Exit
           </Button>
         </div>
       </div>
